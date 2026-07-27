@@ -16,6 +16,9 @@ export class Bus {
 
   @Column({ type: 'varchar', length: 15 })
   bus_plate: string;
+
+  @Column({ type: 'varchar', length: 25, default: 'ACTIVE' })
+  bus_state: string;
   @ManyToOne(() => Category, (category) => category.buses)
   @JoinColumn({ name: 'id_category' })
   category: Category;

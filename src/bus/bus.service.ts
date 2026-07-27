@@ -1,26 +1,49 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Bus } from './entities/bus.entity';
 import { CreateBusDto } from './dto/create-bus.dto';
 import { UpdateBusDto } from './dto/update-bus.dto';
 
 @Injectable()
 export class BusService {
-  create(createBusDto: CreateBusDto) {
-    return 'This action adds a new bus';
+  constructor(
+    @InjectRepository(Bus)
+    private readonly busRepository: Repository<Bus>,
+  ) {}
+
+  async createBus(createBusDto: CreateBusDto): Promise<Bus> {
+    const bus = this.busRepository.create(createBusDto);
+    return await this.busRepository.save(bus);
   }
 
-  findAll() {
-    return `This action returns all bus`;
+  async findAllBuses(): Promise<Bus[]> {
+    return await this.busRepository.find({
+      relations: { category: true },
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} bus`;
+  async findOneBus(id: number): Promise<Bus> {
+    const bus = await this.busRepository.findOne({
+      where: { id_bus: id },
+      relations: { category: true },
+    });
+    if (!bus) throw new NotFoundException(`bus with ID ${id} not found`);
+    return bus;
   }
 
-  update(id: number, updateBusDto: UpdateBusDto) {
-    return `This action updates a #${id} bus`;
+  async update(id: number, updateBusDto: UpdateBusDto): Promise<Bus> {
+    await this.busRepository.update(id, updateBusDto);
+    return this.findOneBus(id);
   }
+  async desactivateBus(id: number): Promise<Bus> {
+    const bus = await this.busRepository.findOneBy({ id_bus: id });
 
-  remove(id: number) {
-    return `This action removes a #${id} bus`;
+    if (!bus) {
+      throw new NotFoundException(`The bus with ID ${id} doesnt exists`);
+    }
+
+    bus.bus_state = 'INACTIVE';
+    return await this.busRepository.save(bus);
   }
 }

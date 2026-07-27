@@ -1,10 +1,13 @@
+export interface GeoPoint {
+  type: 'Point';
+  coordinates: number[];
+}
 import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
   ManyToOne,
   JoinColumn,
-  OneToOne,
   OneToMany,
 } from 'typeorm';
 import { Place } from 'src/place/entities/place.entity';
@@ -18,7 +21,10 @@ export class Stop {
   stop_name: string;
 
   @Column({ type: 'geometry', spatialFeatureType: 'Point', srid: 4326 })
-  location: string;
+  location: GeoPoint;
+
+  @Column({ type: 'varchar', length: 150, default: 'ACTIVE' })
+  stop_state: string;
 
   @ManyToOne(() => Place, (place) => place.stops)
   @JoinColumn({ name: 'id_place' })
