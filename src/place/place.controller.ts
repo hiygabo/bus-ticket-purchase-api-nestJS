@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { PlaceService } from './place.service';
 import { CreatePlaceDto } from './dto/create-place.dto';
 import { UpdatePlaceDto } from './dto/update-place.dto';
@@ -9,26 +17,26 @@ export class PlaceController {
 
   @Post()
   create(@Body() createPlaceDto: CreatePlaceDto) {
-    return this.placeService.create(createPlaceDto);
+    return this.placeService.createPlace(createPlaceDto);
   }
 
   @Get()
   findAll() {
-    return this.placeService.findAll();
+    return this.placeService.findAllPlaces();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.placeService.findOne(+id);
+    return this.placeService.findeOnePlace(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePlaceDto: UpdatePlaceDto) {
-    return this.placeService.update(+id, updatePlaceDto);
-  }
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updatePlaceDto: UpdatePlaceDto) {
+  //   return this.placeService.update(+id, updatePlaceDto);
+  // }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.placeService.remove(+id);
+    return this.placeService.disablePlace(+id);
   }
 }

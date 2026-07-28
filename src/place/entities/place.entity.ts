@@ -10,4 +10,7 @@ export class Place {
 
   @OneToMany(() => Stop, (stop) => stop.place)
   stops: Stop[];
+
+  @Column({ type: 'varchar', length: 50, default: 'ACTIVE' })
+  place_state: string;
 }
