@@ -9,6 +9,7 @@ import {
 import { Bus } from '../../bus/entities/bus.entity';
 import { Stop } from '../../stop/entities/stop.entity';
 import { TravelDetail } from '../../travel_detail/entities/travel_detail.entity';
+import { Schedule } from 'src/schedule/entities/schedule.entity';
 
 @Entity('TRAVEL')
 export class Travel {
@@ -35,4 +36,8 @@ export class Travel {
 
   @OneToMany(() => TravelDetail, (travelDetail) => travelDetail.travel)
   travelDetails: TravelDetail[];
+
+  @ManyToOne(() => Schedule, (schedule) => schedule.travels)
+  @JoinColumn({ name: 'id_schedule' })
+  schedule: Schedule;
 }

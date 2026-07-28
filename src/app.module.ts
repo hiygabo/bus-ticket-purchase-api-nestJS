@@ -10,6 +10,7 @@ import { SeatModule } from './seat/seat.module';
 import { PassengerModule } from './passenger/passenger.module';
 import { TravelModule } from './travel/travel.module';
 import { TravelDetailModule } from './travel_detail/travel_detail.module';
+import { ScheduleModule } from './schedule/schedule.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -30,6 +31,7 @@ import { TravelDetailModule } from './travel_detail/travel_detail.module';
     PassengerModule,
     TravelModule,
     TravelDetailModule,
+    ScheduleModule,
   ],
   controllers: [AppController],
   providers: [AppService],
