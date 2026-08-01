@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, Body, Query } from '@nestjs/common';
 import { TravelService } from './travel.service';
 import { CreateTravelDto } from './dto/create-travel.dto';
 
@@ -14,5 +14,13 @@ export class TravelController {
   @Get()
   findAll() {
     return this.travelService.findAllTravels();
+  }
+
+  @Get('search')
+  searchByRoute(
+    @Query('origin') origin: string,
+    @Query('destiny') destiny: string,
+  ) {
+    return this.travelService.searchByRoute(+origin, +destiny);
   }
 }

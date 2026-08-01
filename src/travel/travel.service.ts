@@ -34,4 +34,19 @@ export class TravelService {
       },
     });
   }
+
+  async searchByRoute(idOrigin: number, idDestiny: number) {
+    return await this.travelRepository.find({
+      where: {
+        travel_origin: { id_stop: idOrigin },
+        travel_destiny: { id_stop: idDestiny },
+      },
+      relations: {
+        bus: true,
+        travel_origin: true,
+        travel_destiny: true,
+        schedule: true,
+      },
+    });
+  }
 }
