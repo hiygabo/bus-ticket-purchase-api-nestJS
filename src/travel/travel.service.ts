@@ -1,14 +1,20 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateTravelDto } from './dto/create-travel.dto';
-import { UpdateTravelDto } from './dto/update-travel.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Travel } from './entities/travel.entity';
+import { Seat } from 'src/seat/entities/seat.entity';
+import { TravelDetail } from 'src/travel_detail/entities/travel_detail.entity';
 import { Repository } from 'typeorm';
+
 @Injectable()
 export class TravelService {
   constructor(
     @InjectRepository(Travel)
     private travelRepository: Repository<Travel>,
+    @InjectRepository(Seat)
+    private seatRepository: Repository<Seat>,
+    @InjectRepository(TravelDetail)
+    private travelDetailRepository: Repository<TravelDetail>,
   ) {}
 
   async create(createTravelDto: CreateTravelDto) {
@@ -48,5 +54,36 @@ export class TravelService {
         schedule: true,
       },
     });
+  }
+
+  async getTravelSeats(id_travel: number) {
+    const travel = await this.travelRepository.findOne({
+      where: { id_travel },
+      relations: { bus: true },
+    });
+
+    if (!travel) {
+      throw new NotFoundException(`Travel with ID ${id_travel} not found`);
+    }
+
+    const allSeats = await this.seatRepository.find({
+      where: { bus: { id_bus: travel.bus.id_bus } },
+      order: { seat_number: 'ASC' },
+    });
+
+    const solidTickets = await this.travelDetailRepository.find({
+      where: { travel: { id_travel: id_travel } },
+      relations: { seat: true },
+    });
+
+    const occupiedSeatIds = solidTickets.map((ticket) => ticket.seat.id_seat);
+
+    const seatMap = allSeats.map((seat) => ({
+      id_seat: seat.id_seat,
+      seat_number: seat.seat_number,
+      status: occupiedSeatIds.includes(seat.id_seat) ? 'OCCUPIED' : 'FREE',
+    }));
+
+    return seatMap;
   }
 }

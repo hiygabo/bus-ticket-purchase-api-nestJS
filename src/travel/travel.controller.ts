@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Query, Param } from '@nestjs/common';
 import { TravelService } from './travel.service';
 import { CreateTravelDto } from './dto/create-travel.dto';
 
@@ -22,5 +22,10 @@ export class TravelController {
     @Query('destiny') destiny: string,
   ) {
     return this.travelService.searchByRoute(+origin, +destiny);
+  }
+
+  @Get(':id/seats')
+  getSeatStatus(@Param('id') id: string) {
+    return this.travelService.getTravelSeats(+id);
   }
 }

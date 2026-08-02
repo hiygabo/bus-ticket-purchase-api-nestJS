@@ -1,26 +1,25 @@
 import { Injectable } from '@nestjs/common';
 import { CreateSeatDto } from './dto/create-seat.dto';
-import { UpdateSeatDto } from './dto/update-seat.dto';
-
+import { Repository } from 'typeorm';
+import { Seat } from './entities/seat.entity';
+import { InjectRepository } from '@nestjs/typeorm';
 @Injectable()
 export class SeatService {
-  create(createSeatDto: CreateSeatDto) {
-    return 'This action adds a new seat';
+  constructor(
+    @InjectRepository(Seat)
+    private seatRepository: Repository<Seat>,
+  ) {}
+  async createSeat(createSeatDto: CreateSeatDto): Promise<Seat> {
+    const newSeat = this.seatRepository.create({
+      seat_number: createSeatDto.seat_number,
+      bus: { id_bus: createSeatDto.busId },
+    });
+    return await this.seatRepository.save(newSeat);
   }
 
-  findAll() {
-    return `This action returns all seat`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} seat`;
-  }
-
-  update(id: number, updateSeatDto: UpdateSeatDto) {
-    return `This action updates a #${id} seat`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} seat`;
+  async findAllSeats(): Promise<Seat[]> {
+    return await this.seatRepository.find({
+      relations: { bus: true },
+    });
   }
 }
