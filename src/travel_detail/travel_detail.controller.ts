@@ -1,6 +1,15 @@
-import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  Res,
+} from '@nestjs/common';
 import { TravelDetailService } from './travel_detail.service';
 import { CreateTravelDetailDto } from './dto/create-travel_detail.dto';
+import type { Response } from 'express';
 @Controller('travel-detail')
 export class TravelDetailController {
   constructor(private readonly travelDetailService: TravelDetailService) {}
@@ -18,6 +27,17 @@ export class TravelDetailController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.travelDetailService.findOneDetail(+id);
+  }
+
+  @Get(':id/ticket')
+  async downloadTicket(@Param('id') id: string, @Res() res: Response) {
+    const doc = await this.travelDetailService.generateTicketPDF(+id);
+    res.set({
+      'Content-type': 'application/pdf',
+      'Content-Disposition': `attachment; filename=Ticket-${id}.pdf`,
+    });
+    doc.pipe(res);
+    doc.end();
   }
 
   @Delete(':id')

@@ -7,6 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { TravelDetail } from './entities/travel_detail.entity';
 import { CreateTravelDetailDto } from './dto/create-travel_detail.dto';
+import PDFDocument = require('pdfkit');
 @Injectable()
 export class TravelDetailService {
   constructor(
@@ -70,5 +71,24 @@ export class TravelDetailService {
   async removeDetail(id_detail: number): Promise<void> {
     const detail = await this.findOneDetail(id_detail);
     await this.travelDetailRepository.remove(detail);
+  }
+
+  async generateTicketPDF(id_detail: number): Promise<PDFKit.PDFDocument> {
+    const ticket = await this.findOneDetail(id_detail);
+
+    const doc = new PDFDocument({ margin: 50 });
+
+    doc.fontSize(20).text('TRAVEL TICKET', { align: 'center' });
+    doc.moveDown();
+
+    doc.fontSize(14).text(`TICKET Nro: ${ticket.id_detail}`);
+    doc.text(`Precio: $${ticket.ticket_price}`);
+    doc.moveDown();
+
+    doc.fontSize(12).text(`PASSENGER NAME: ${ticket.passenger.full_name}`);
+    doc.text(`Viaje ID: ${ticket.travel.id_travel}`);
+    doc.text(`Asiento Nro: ${ticket.seat.id_seat}`);
+
+    return doc;
   }
 }
