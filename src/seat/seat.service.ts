@@ -14,11 +14,11 @@ export class SeatService {
       seat_number: createSeatDto.seat_number,
       bus: { id_bus: createSeatDto.busId },
     });
-    return await this.seatRepository.save(newSeat);
+    return this.seatRepository.save(newSeat);
   }
 
   async findAllSeats(): Promise<Seat[]> {
-    return await this.seatRepository.find({
+    return this.seatRepository.find({
       relations: { bus: true },
     });
   }

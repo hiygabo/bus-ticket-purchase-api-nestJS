@@ -27,7 +27,7 @@ export class TravelDetailService {
 
     if (existingTicket) {
       throw new BadRequestException(
-        `El asiento ${createTravelDetailDto.id_seat} ya está ocupado para el viaje ${createTravelDetailDto.id_travel}`,
+        `Seat ${createTravelDetailDto.id_seat} is already occupied for travel ${createTravelDetailDto.id_travel}`,
       );
     }
     const newDetail = this.travelDetailRepository.create({
@@ -36,11 +36,11 @@ export class TravelDetailService {
       seat: { id_seat: createTravelDetailDto.id_seat },
       passenger: { id_passenger: createTravelDetailDto.id_passenger },
     });
-    return await this.travelDetailRepository.save(newDetail);
+    return this.travelDetailRepository.save(newDetail);
   }
 
   async findAllDetails(): Promise<TravelDetail[]> {
-    return await this.travelDetailRepository.find({
+    return this.travelDetailRepository.find({
       relations: {
         travel: true,
         seat: true,
@@ -61,7 +61,7 @@ export class TravelDetailService {
 
     if (!detail) {
       throw new NotFoundException(
-        `Travel Detail con ID ${id_detail} no encontrado`,
+        `Travel detail with ID ${id_detail} not found`,
       );
     }
 

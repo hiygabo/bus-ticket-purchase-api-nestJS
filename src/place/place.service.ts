@@ -14,11 +14,11 @@ export class PlaceService {
 
   async createPlace(createPlaceDto: CreatePlaceDto): Promise<Place> {
     const place = this.placeRepository.create(createPlaceDto);
-    return await this.placeRepository.save(place);
+    return this.placeRepository.save(place);
   }
 
   async findAllPlaces(): Promise<Place[]> {
-    return await this.placeRepository.find();
+    return this.placeRepository.find();
   }
 
   async findeOnePlace(id: number): Promise<Place> {
@@ -36,7 +36,7 @@ export class PlaceService {
   async disablePlace(id: number): Promise<Place> {
     const place = await this.placeRepository.findOneBy({ id_place: id });
     if (!place) {
-      throw new NotFoundException(`Place with ${id} doesnt exists`);
+      throw new NotFoundException(`Place with ID ${id} does not exist`);
     }
     place.place_state = 'INACTIVE';
     return place;

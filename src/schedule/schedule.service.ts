@@ -13,7 +13,7 @@ export class ScheduleService {
 
   async createSchedule(createScheduleDto: CreateScheduleDto) {
     const newSchedule = this.scheduleRepository.create(createScheduleDto);
-    return await this.scheduleRepository.save(newSchedule);
+    return this.scheduleRepository.save(newSchedule);
   }
 
   async findAllSchedules() {

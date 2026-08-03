@@ -21,11 +21,11 @@ export class StopService {
       },
       place: { id_place: createStopDto.placeId },
     });
-    return await this.stopRepository.save(stop);
+    return this.stopRepository.save(stop);
   }
 
   async findAllStops(): Promise<Stop[]> {
-    return await this.stopRepository.find({
+    return this.stopRepository.find({
       relations: { place: true },
     });
   }
@@ -62,9 +62,9 @@ export class StopService {
   async desactivateStop(id: number): Promise<Stop> {
     const stop = await this.stopRepository.findOneBy({ id_stop: id });
     if (!stop) {
-      throw new NotFoundException(`The stop with ${id} doesnt exists`);
+      throw new NotFoundException(`The stop with ID ${id} does not exist`);
     }
     stop.stop_state = 'INACTIVE';
-    return await this.stopRepository.save(stop);
+    return this.stopRepository.save(stop);
   }
 }

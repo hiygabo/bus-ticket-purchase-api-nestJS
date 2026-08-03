@@ -14,11 +14,11 @@ export class BusService {
 
   async createBus(createBusDto: CreateBusDto): Promise<Bus> {
     const bus = this.busRepository.create(createBusDto);
-    return await this.busRepository.save(bus);
+    return this.busRepository.save(bus);
   }
 
   async findAllBuses(): Promise<Bus[]> {
-    return await this.busRepository.find({
+    return this.busRepository.find({
       relations: { category: true },
     });
   }
@@ -36,14 +36,15 @@ export class BusService {
     await this.busRepository.update(id, updateBusDto);
     return this.findOneBus(id);
   }
+
   async desactivateBus(id: number): Promise<Bus> {
     const bus = await this.busRepository.findOneBy({ id_bus: id });
 
     if (!bus) {
-      throw new NotFoundException(`The bus with ID ${id} doesnt exists`);
+      throw new NotFoundException(`The bus with ID ${id} does not exist`);
     }
 
     bus.bus_state = 'INACTIVE';
-    return await this.busRepository.save(bus);
+    return this.busRepository.save(bus);
   }
 }

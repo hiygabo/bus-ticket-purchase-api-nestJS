@@ -27,7 +27,7 @@ export class TravelService {
       schedule: { id_schedule: createTravelDto.id_schedule },
     });
 
-    return await this.travelRepository.save(newTravel);
+    return this.travelRepository.save(newTravel);
   }
 
   async findAllTravels() {
@@ -42,7 +42,7 @@ export class TravelService {
   }
 
   async searchByRoute(idOrigin: number, idDestiny: number) {
-    return await this.travelRepository.find({
+    return this.travelRepository.find({
       where: {
         travel_origin: { id_stop: idOrigin },
         travel_destiny: { id_stop: idDestiny },
