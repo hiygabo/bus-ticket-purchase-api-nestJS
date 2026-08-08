@@ -9,7 +9,7 @@ import {
 import { Bus } from '../../bus/entities/bus.entity';
 import { Stop } from '../../stop/entities/stop.entity';
 import { TravelDetail } from '../../travel_detail/entities/travel_detail.entity';
-import { Schedule } from 'src/schedule/entities/schedule.entity';
+import { Schedule } from '../../schedule/entities/schedule.entity';
 
 @Entity('TRAVEL')
 export class Travel {

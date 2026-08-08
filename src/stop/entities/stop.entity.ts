@@ -10,8 +10,8 @@ import {
   JoinColumn,
   OneToMany,
 } from 'typeorm';
-import { Place } from 'src/place/entities/place.entity';
-import { Travel } from 'src/travel/entities/travel.entity';
+import { Place } from '../../place/entities/place.entity';
+import { Travel } from '../../travel/entities/travel.entity';
 @Entity('STOP')
 export class Stop {
   @PrimaryGeneratedColumn()

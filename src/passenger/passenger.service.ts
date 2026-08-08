@@ -1,11 +1,26 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreatePassengerDto } from './dto/create-passenger.dto';
 import { UpdatePassengerDto } from './dto/update-passenger.dto';
+import { Passenger } from './entities/passenger.entity';
 
 @Injectable()
 export class PassengerService {
-  create(createPassengerDto: CreatePassengerDto) {
-    return 'This action adds a new passenger';
+  constructor(
+    @InjectRepository(Passenger)
+    private readonly passengerRepository: Repository<Passenger>,
+  ) {}
+
+  create(createPassengerDto: CreatePassengerDto): Promise<Passenger> {
+    return this.createPassenger(createPassengerDto);
+  }
+
+  async createPassenger(
+    createPassengerDto: CreatePassengerDto,
+  ): Promise<Passenger> {
+    const passenger = this.passengerRepository.create(createPassengerDto);
+    return this.passengerRepository.save(passenger);
   }
 
   findAll() {
@@ -17,6 +32,7 @@ export class PassengerService {
   }
 
   update(id: number, updatePassengerDto: UpdatePassengerDto) {
+    void updatePassengerDto;
     return `This action updates a #${id} passenger`;
   }
 

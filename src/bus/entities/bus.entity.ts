@@ -6,9 +6,9 @@ import {
   JoinColumn,
   OneToMany,
 } from 'typeorm';
-import { Category } from 'src/category/entities/category.entity';
-import { Seat } from 'src/seat/entities/seat.entity';
-import { Travel } from 'src/travel/entities/travel.entity';
+import { Category } from '../../category/entities/category.entity';
+import { Seat } from '../../seat/entities/seat.entity';
+import { Travel } from '../../travel/entities/travel.entity';
 @Entity('BUS')
 export class Bus {
   @PrimaryGeneratedColumn()

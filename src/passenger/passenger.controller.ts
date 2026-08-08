@@ -1,15 +1,38 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Inject,
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { PassengerService } from './passenger.service';
 import { CreatePassengerDto } from './dto/create-passenger.dto';
 import { UpdatePassengerDto } from './dto/update-passenger.dto';
+import { Passenger } from './entities/passenger.entity';
+
+interface PassengerServiceContract {
+  create(createPassengerDto: CreatePassengerDto): Promise<Passenger>;
+  findAll(): string;
+  findOne(id: number): string;
+  update(id: number, updatePassengerDto: UpdatePassengerDto): string;
+  remove(id: number): string;
+}
 
 @Controller('passenger')
 export class PassengerController {
-  constructor(private readonly passengerService: PassengerService) {}
+  constructor(
+    @Inject(PassengerService)
+    private readonly passengerService: PassengerServiceContract,
+  ) {}
 
   @Post()
-  create(@Body() createPassengerDto: CreatePassengerDto) {
-    return this.passengerService.create(createPassengerDto);
+  async create(
+    @Body() createPassengerDto: CreatePassengerDto,
+  ): Promise<Passenger> {
+    return await this.passengerService.create(createPassengerDto);
   }
 
   @Get()
@@ -23,7 +46,10 @@ export class PassengerController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePassengerDto: UpdatePassengerDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updatePassengerDto: UpdatePassengerDto,
+  ) {
     return this.passengerService.update(+id, updatePassengerDto);
   }
 
