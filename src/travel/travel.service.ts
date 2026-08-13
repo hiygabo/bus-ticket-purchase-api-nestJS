@@ -1,5 +1,6 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateTravelDto } from './dto/create-travel.dto';
+import { UpdateTravelDto } from './dto/update-travel.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Travel } from './entities/travel.entity';
 import { Seat } from '../seat/entities/seat.entity';
@@ -20,7 +21,7 @@ export class TravelService {
   async create(createTravelDto: CreateTravelDto) {
     const newTravel = this.travelRepository.create({
       departure_date: createTravelDto.departure_date,
-      route: createTravelDto.route,
+      route: createTravelDto.route as string,
       bus: { id_bus: createTravelDto.id_bus },
       travel_origin: { id_stop: createTravelDto.id_origin_stop },
       travel_destiny: { id_stop: createTravelDto.id_destiny_stop },
@@ -28,6 +29,20 @@ export class TravelService {
     });
 
     return this.travelRepository.save(newTravel);
+  }
+
+  async updateTravel(id: number, updateTravelDto: UpdateTravelDto) {
+    const travel = await this.travelRepository.findOne({
+      where: { id_travel: id },
+    });
+
+    if (!travel) {
+      throw new NotFoundException(`Travel with ID ${id} not found`);
+    }
+
+    travel.route = updateTravelDto.route as string;
+
+    return this.travelRepository.save(travel);
   }
 
   async findAllTravels() {

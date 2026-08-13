@@ -12,6 +12,8 @@ export class Schedule {
   @Column({ type: 'time', nullable: true })
   estimated_arrival_time: string;
 
+  @Column({ type: 'varchar', nullable: true })
+  estimated_travel_time: string;
   @OneToMany(() => Travel, (travel) => travel.schedule)
   travels: Travel[];
 }
