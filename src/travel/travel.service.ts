@@ -48,9 +48,15 @@ export class TravelService {
   async findAllTravels() {
     return this.travelRepository.find({
       relations: {
-        bus: true,
-        travel_origin: true,
-        travel_destiny: true,
+        bus: {
+          seats: true,
+        },
+        travel_origin: {
+          place: true,
+        },
+        travel_destiny: {
+          place: true,
+        },
         schedule: true,
       },
     });

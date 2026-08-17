@@ -44,4 +44,12 @@ export class TravelDetailController {
   remove(@Param('id') id: string) {
     return this.travelDetailService.removeDetail(+id);
   }
+
+  @Get('occupied/:id_travel')
+  async getOccupiedSeats(@Param('id_travel') id_travel: string) {
+    const details = await this.travelDetailService.findAllByTravel(
+      Number(id_travel),
+    );
+    return details.map((detail) => detail.seat.id_seat);
+  }
 }

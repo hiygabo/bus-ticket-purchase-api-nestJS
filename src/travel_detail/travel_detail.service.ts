@@ -49,6 +49,17 @@ export class TravelDetailService {
     });
   }
 
+  async findAllByTravel(id_travel: number): Promise<TravelDetail[]> {
+    return this.travelDetailRepository.find({
+      where: {
+        travel: { id_travel: id_travel },
+      },
+      relations: {
+        seat: true,
+      },
+    });
+  }
+
   async findOneDetail(id_detail: number): Promise<TravelDetail> {
     const detail = await this.travelDetailRepository.findOne({
       where: { id_detail },
@@ -86,8 +97,8 @@ export class TravelDetailService {
     doc.moveDown();
 
     doc.fontSize(12).text(`PASSENGER NAME: ${ticket.passenger.full_name}`);
-    doc.text(`Viaje ID: ${ticket.travel.id_travel}`);
-    doc.text(`Asiento Nro: ${ticket.seat.id_seat}`);
+    doc.text(`TRAVEL ID: ${ticket.travel.id_travel}`);
+    doc.text(`SEAT:: ${ticket.seat.id_seat}`);
 
     return doc;
   }

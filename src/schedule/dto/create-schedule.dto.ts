@@ -13,4 +13,7 @@ export class CreateScheduleDto {
     message: 'estimated_arrival_time must have the correct format',
   })
   estimated_arrival_time?: string;
+  @IsOptional()
+  @IsOptional()
+  estimated_travel_time?: string;
 }
