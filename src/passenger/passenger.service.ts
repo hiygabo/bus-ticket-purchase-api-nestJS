@@ -19,24 +19,24 @@ export class PassengerService {
   async createPassenger(
     createPassengerDto: CreatePassengerDto,
   ): Promise<Passenger> {
-    const passenger = this.passengerRepository.create(createPassengerDto);
-    return this.passengerRepository.save(passenger);
+    const existingPassenger = await this.passengerRepository.findOne({
+      where: { ci: createPassengerDto.ci },
+    });
+    if (existingPassenger) {
+      return existingPassenger;
+    }
+
+    const newPassenger = this.passengerRepository.create(createPassengerDto);
+    return await this.passengerRepository.save(newPassenger);
   }
 
-  findAll() {
-    return `This action returns all passenger`;
+  async findOnePassenger(id: number): Promise<Passenger | null> {
+    return this.passengerRepository.findOne({
+      where: { id_passenger: id },
+    });
   }
 
   findOne(id: number) {
     return `This action returns a #${id} passenger`;
-  }
-
-  update(id: number, updatePassengerDto: UpdatePassengerDto) {
-    void updatePassengerDto;
-    return `This action updates a #${id} passenger`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} passenger`;
   }
 }
