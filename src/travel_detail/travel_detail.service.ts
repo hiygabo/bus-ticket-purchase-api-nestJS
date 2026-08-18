@@ -93,7 +93,7 @@ export class TravelDetailService {
     doc.moveDown();
 
     doc.fontSize(14).text(`TICKET Nro: ${ticket.id_detail}`);
-    doc.text(`Precio: $${ticket.ticket_price}`);
+    doc.text(`PRICE: $${ticket.travel.price}`);
     doc.moveDown();
 
     doc.fontSize(12).text(`PASSENGER NAME: ${ticket.passenger.full_name}`);

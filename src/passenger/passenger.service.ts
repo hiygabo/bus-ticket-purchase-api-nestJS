@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreatePassengerDto } from './dto/create-passenger.dto';
-import { UpdatePassengerDto } from './dto/update-passenger.dto';
 import { Passenger } from './entities/passenger.entity';
 
 @Injectable()
@@ -34,9 +33,5 @@ export class PassengerService {
     return this.passengerRepository.findOne({
       where: { id_passenger: id },
     });
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} passenger`;
   }
 }

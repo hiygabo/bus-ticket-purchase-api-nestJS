@@ -22,6 +22,12 @@ export class Travel {
   @Column({ type: 'geometry', spatialFeatureType: 'LineString', srid: 4326 })
   route: string;
 
+  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
+  price: number;
+
+  @Column({ type: 'varchar', default: 'ACTIVE' })
+  status: string;
+
   @ManyToOne(() => Bus, (bus) => bus.travel)
   @JoinColumn({ name: 'id_bus' })
   bus: Bus;
