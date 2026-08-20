@@ -6,6 +6,7 @@ import {
   Body,
   Query,
   Param,
+  Delete,
 } from '@nestjs/common';
 import { TravelService } from './travel.service';
 import { CreateTravelDto } from './dto/create-travel.dto';
@@ -44,5 +45,9 @@ export class TravelController {
   @Get(':id/seats')
   getSeatStatus(@Param('id') id: string) {
     return this.travelService.getTravelSeats(+id);
+  }
+  @Delete(':id')
+  desactivate(@Param('id') id: string) {
+    return this.travelService.deactivateTravel(+id);
   }
 }

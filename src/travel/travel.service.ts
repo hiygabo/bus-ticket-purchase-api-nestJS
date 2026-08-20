@@ -107,4 +107,17 @@ export class TravelService {
 
     return seatMap;
   }
+
+  async deactivateTravel(id_travel: number) {
+    const travel = await this.travelRepository.findOne({
+      where: { id_travel: id_travel },
+    });
+
+    if (!travel) {
+      throw new NotFoundException(`Travel with ID ${id_travel} not found`);
+    }
+    travel.status = 'INACTIVE';
+
+    return this.travelRepository.save(travel);
+  }
 }
