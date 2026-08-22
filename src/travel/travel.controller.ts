@@ -42,6 +42,11 @@ export class TravelController {
     return this.travelService.searchByRoute(+origin, +destiny);
   }
 
+  @Get('active')
+  findAllActive() {
+    return this.travelService.findAllActiveTravels();
+  }
+
   @Get(':id/seats')
   getSeatStatus(@Param('id') id: string) {
     return this.travelService.getTravelSeats(+id);

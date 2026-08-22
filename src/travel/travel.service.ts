@@ -120,4 +120,24 @@ export class TravelService {
 
     return this.travelRepository.save(travel);
   }
+
+  async findAllActiveTravels() {
+    return this.travelRepository.find({
+      where: {
+        status: 'ACTIVE',
+      },
+      relations: {
+        bus: {
+          seats: true,
+        },
+        travel_origin: {
+          place: true,
+        },
+        travel_destiny: {
+          place: true,
+        },
+        schedule: true,
+      },
+    });
+  }
 }
