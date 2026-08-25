@@ -57,6 +57,11 @@ export class TravelService {
         id_stop: updateTravelDto.id_destiny_stop,
       } as any;
     }
+    if (updateTravelDto.id_schedule !== undefined) {
+      travel.schedule = {
+        id_schedule: updateTravelDto.id_schedule,
+      } as any;
+    }
     return this.travelRepository.save(travel);
   }
 
