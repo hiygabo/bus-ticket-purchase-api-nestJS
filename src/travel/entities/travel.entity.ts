@@ -32,6 +32,9 @@ export class Travel {
   @JoinColumn({ name: 'id_bus' })
   bus: Bus;
 
+  // @Column({ name: 'id_bus' })
+  // id_bus: number;
+
   @ManyToOne(() => Stop, (stop) => stop.travels_as_origin)
   @JoinColumn({ name: 'id_origin_stop' })
   travel_origin: Stop;

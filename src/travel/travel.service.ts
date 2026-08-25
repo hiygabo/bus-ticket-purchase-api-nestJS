@@ -39,9 +39,24 @@ export class TravelService {
     if (!travel) {
       throw new NotFoundException(`Travel with ID ${id} not found`);
     }
+    Object.assign(travel, updateTravelDto);
 
-    travel.route = updateTravelDto.route as string;
-
+    if (updateTravelDto.route) {
+      travel.route = updateTravelDto.route as string;
+    }
+    if (updateTravelDto.id_bus !== undefined) {
+      travel.bus = { id_bus: updateTravelDto.id_bus } as any;
+    }
+    if (updateTravelDto.id_origin_stop !== undefined) {
+      travel.travel_origin = {
+        id_stop: updateTravelDto.id_origin_stop,
+      } as any;
+    }
+    if (updateTravelDto.id_destiny_stop !== undefined) {
+      travel.travel_destiny = {
+        id_stop: updateTravelDto.id_destiny_stop,
+      } as any;
+    }
     return this.travelRepository.save(travel);
   }
 
