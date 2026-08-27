@@ -12,7 +12,6 @@ import { TravelModule } from './travel/travel.module';
 import { TravelDetailModule } from './travel_detail/travel_detail.module';
 import { ScheduleModule } from './schedule/schedule.module';
 import { UsersModule } from './users/users.module';
-
 @Module({
   imports: [
     TypeOrmModule.forRoot({
