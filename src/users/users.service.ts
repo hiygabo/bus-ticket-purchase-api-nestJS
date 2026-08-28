@@ -18,7 +18,7 @@ export class UsersService {
     });
 
     if (userExists) {
-      throw new BadRequestException('This email is already register');
+      throw new BadRequestException('This email already exists');
     }
 
     const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
