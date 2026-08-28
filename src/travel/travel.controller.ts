@@ -32,13 +32,11 @@ export class TravelController {
     return this.travelService.updateTravel(+id, updateTravelDto);
   }
 
-  @UseGuards(AuthGuard('jwt'))
   @Get()
   findAll() {
     return this.travelService.findAllTravels();
   }
 
-  @UseGuards(AuthGuard('jwt'))
   @Get('search')
   searchByRoute(
     @Query('origin') origin: string,
