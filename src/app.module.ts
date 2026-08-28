@@ -12,6 +12,7 @@ import { TravelModule } from './travel/travel.module';
 import { TravelDetailModule } from './travel_detail/travel_detail.module';
 import { ScheduleModule } from './schedule/schedule.module';
 import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -34,6 +35,7 @@ import { UsersModule } from './users/users.module';
     TravelDetailModule,
     ScheduleModule,
     UsersModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
