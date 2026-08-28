@@ -7,20 +7,23 @@ import {
   Query,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { TravelService } from './travel.service';
 import { CreateTravelDto } from './dto/create-travel.dto';
 import { UpdateTravelDto } from './dto/update-travel.dto';
-
+import { AuthGuard } from '@nestjs/passport';
 @Controller('travel')
 export class TravelController {
   constructor(private readonly travelService: TravelService) {}
 
+  @UseGuards(AuthGuard('jwt'))
   @Post()
   create(@Body() createTravelDto: CreateTravelDto) {
     return this.travelService.create(createTravelDto);
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Patch(':id')
   updateTravel(
     @Param('id') id: string,
@@ -29,11 +32,13 @@ export class TravelController {
     return this.travelService.updateTravel(+id, updateTravelDto);
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Get()
   findAll() {
     return this.travelService.findAllTravels();
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Get('search')
   searchByRoute(
     @Query('origin') origin: string,
@@ -51,6 +56,7 @@ export class TravelController {
   getSeatStatus(@Param('id') id: string) {
     return this.travelService.getTravelSeats(+id);
   }
+  @UseGuards(AuthGuard('jwt'))
   @Delete(':id')
   desactivate(@Param('id') id: string) {
     return this.travelService.deactivateTravel(+id);
