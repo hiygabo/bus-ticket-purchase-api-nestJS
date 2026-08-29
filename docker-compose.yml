@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  postgres_db:
+    image: postgres:15-alpine
+    container_name: bus_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: bus_ticket_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+  backend:
+    build: .
+    container_name: bus_backend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres_db
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    env_file:
+      - .env
+volumes:
+  pgdata:
