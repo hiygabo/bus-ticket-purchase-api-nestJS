@@ -7,7 +7,6 @@ import { PlaceModule } from './place/place.module';
 import { CategoryModule } from './category/category.module';
 import { BusModule } from './bus/bus.module';
 import { SeatModule } from './seat/seat.module';
-import { PassengerModule } from './passenger/passenger.module';
 import { TravelModule } from './travel/travel.module';
 import { TravelDetailModule } from './travel_detail/travel_detail.module';
 import { ScheduleModule } from './schedule/schedule.module';
@@ -34,7 +33,6 @@ import { ConfigModule } from '@nestjs/config';
     CategoryModule,
     BusModule,
     SeatModule,
-    PassengerModule,
     TravelModule,
     TravelDetailModule,
     ScheduleModule,

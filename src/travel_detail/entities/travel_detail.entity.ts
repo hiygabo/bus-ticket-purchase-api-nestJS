@@ -7,8 +7,7 @@ import {
 } from 'typeorm';
 import { Travel } from '../../travel/entities/travel.entity';
 import { Seat } from '../../seat/entities/seat.entity';
-import { Passenger } from '../../passenger/entities/passenger.entity';
-
+import { User } from 'src/users/entities/user.entity';
 @Entity('TRAVEL_DETAIL')
 export class TravelDetail {
   @PrimaryGeneratedColumn()
@@ -16,6 +15,12 @@ export class TravelDetail {
 
   @Column({ type: 'integer' })
   ticket_price: number;
+
+  @Column({ type: 'varchar' })
+  passenger_full_name: string;
+
+  @Column({ type: 'varchar'})
+  passenger_ci: string;
 
   @ManyToOne(() => Travel, (travel) => travel.travelDetails)
   @JoinColumn({ name: 'id_travel' })
@@ -25,7 +30,7 @@ export class TravelDetail {
   @JoinColumn({ name: 'id_seat' })
   seat: Seat;
 
-  @ManyToOne(() => Passenger, (passenger) => passenger.travelDetails)
-  @JoinColumn({ name: 'id_passenger' })
-  passenger: Passenger;
+  @ManyToOne(() => User, (user) => user.travelDetails)
+  @JoinColumn({ name: 'id_user'})
+  user: User;
 }

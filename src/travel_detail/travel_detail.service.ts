@@ -32,9 +32,11 @@ export class TravelDetailService {
     }
     const newDetail = this.travelDetailRepository.create({
       ticket_price: createTravelDetailDto.ticket_price,
+      passenger_full_name: createTravelDetailDto.passenger_full_name,
+      passenger_ci: createTravelDetailDto.passenger_ci,
       travel: { id_travel: createTravelDetailDto.id_travel },
       seat: { id_seat: createTravelDetailDto.id_seat },
-      passenger: { id_passenger: createTravelDetailDto.id_passenger },
+      user: { id_user: createTravelDetailDto.id_user },
     });
     return this.travelDetailRepository.save(newDetail);
   }
@@ -44,7 +46,7 @@ export class TravelDetailService {
       relations: {
         travel: true,
         seat: true,
-        passenger: true,
+        user: true,
       },
     });
   }
@@ -66,7 +68,7 @@ export class TravelDetailService {
       relations: {
         travel: true,
         seat: true,
-        passenger: true,
+        user: true,
       },
     });
 
@@ -87,7 +89,7 @@ export class TravelDetailService {
     const ticket = await this.travelDetailRepository.findOne({
       where: { id_detail },
       relations: {
-        passenger: true,
+        user: true,
         seat: true,
         travel: {
           bus: true,
@@ -104,9 +106,8 @@ export class TravelDetailService {
       );
     }
 
-    const passengerName = ticket.passenger?.full_name ?? '-';
-    const passengerCi =
-      ticket.passenger?.ci !== undefined ? String(ticket.passenger.ci) : '-';
+    const passengerName = ticket.passenger_full_name;
+    const passengerCi = ticket.passenger_ci;
     const origin =
       ticket.travel?.travel_origin?.place?.place_name ??
       ticket.travel?.travel_origin?.stop_name ??

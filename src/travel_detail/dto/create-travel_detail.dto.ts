@@ -1,4 +1,4 @@
-import { IsInt, IsNotEmpty, IsPositive } from 'class-validator';
+import { IsInt, IsNotEmpty, IsPositive, IsString } from 'class-validator';
 
 export class CreateTravelDetailDto {
   @IsNotEmpty()
@@ -15,6 +15,14 @@ export class CreateTravelDetailDto {
   id_seat: number;
 
   @IsNotEmpty()
+  @IsString()
+  passenger_full_name: string;
+
+  @IsNotEmpty()
+  @IsString()
+  passenger_ci: string;
+  
+  @IsNotEmpty()
   @IsInt()
-  id_passenger: number;
+  id_user: number;
 }
