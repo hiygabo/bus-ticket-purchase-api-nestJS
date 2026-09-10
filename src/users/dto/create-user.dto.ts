@@ -10,17 +10,17 @@ import {
 export class CreateUserDto {
   @IsEmail({}, { message: 'Must be a valid email' })
   @IsNotEmpty()
-  email?: string;
+  email: string;
 
   @IsString()
   @MinLength(6, { message: 'Password must have almost 6 characters ' })
-  password?: string;
+  password: string;
 
   @IsString()
-  @IsOptional()
-  role?: string;
+  @IsNotEmpty()
+  full_name: string;
 
   @IsNotEmpty()
   @IsNumber()
-  id_place?: number;
+  id_place: number;
 }
