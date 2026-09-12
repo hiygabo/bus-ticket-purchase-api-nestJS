@@ -13,6 +13,8 @@ import { ScheduleModule } from './schedule/schedule.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
+import { PaymentModule } from './payment/payment.module';
+import { PaymentTypeModule } from './payment_type/payment_type.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -38,6 +40,8 @@ import { ConfigModule } from '@nestjs/config';
     ScheduleModule,
     UsersModule,
     AuthModule,
+    PaymentModule,
+    PaymentTypeModule,
   ],
   controllers: [AppController],
   providers: [AppService],
