@@ -1,4 +1,11 @@
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
+import {
+  IsIn,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+  MaxLength,
+} from 'class-validator';
 
 export class CreatePaymentDto {
   @IsNumber()
@@ -6,7 +13,13 @@ export class CreatePaymentDto {
   amount: number;
 
   @IsString()
-  @IsOptional() 
+  @IsOptional()
+  @IsIn(['pending', 'completed', 'failed', 'cancelled'])
+  status?: string;
+
+  @IsString()
+  @IsOptional()
+  @MaxLength(100)
   transaction_code?: string;
 
   @IsNumber()
