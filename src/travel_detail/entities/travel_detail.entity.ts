@@ -4,10 +4,13 @@ import {
   Column,
   ManyToOne,
   JoinColumn,
+  OneToOne
 } from 'typeorm';
 import { Travel } from '../../travel/entities/travel.entity';
 import { Seat } from '../../seat/entities/seat.entity';
 import { User } from 'src/users/entities/user.entity';
+import { Payment } from 'src/payment/entities/payment.entity';
+
 @Entity('TRAVEL_DETAIL')
 export class TravelDetail {
   @PrimaryGeneratedColumn()
@@ -33,4 +36,7 @@ export class TravelDetail {
   @ManyToOne(() => User, (user) => user.travelDetails)
   @JoinColumn({ name: 'id_user'})
   user: User;
+
+  @OneToOne(() => Payment, (payment) => payment.travelDetail)
+  payment: Payment;
 }
