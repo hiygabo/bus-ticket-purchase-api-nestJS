@@ -28,6 +28,7 @@ import { PaymentTypeModule } from './payment_type/payment_type.module';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
       autoLoadEntities: true,
+      relationLoadStrategy: 'query',
       synchronize: true,
     }),
     StopModule,
