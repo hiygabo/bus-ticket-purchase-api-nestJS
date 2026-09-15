@@ -2,6 +2,7 @@ import {
   Injectable,
   NotFoundException,
   BadRequestException,
+  Search,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -65,24 +66,6 @@ export class TravelDetailService {
     })
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   async createDetail(
     createTravelDetailDto: CreateTravelDetailDto,
   ): Promise<TravelDetail> {
@@ -108,7 +91,28 @@ export class TravelDetailService {
       seat: { id_seat: createTravelDetailDto.id_seat },
       user: { id_user: createTravelDetailDto.id_user },
     });
-    return this.travelDetailRepository.save(newDetail);
+
+
+    const savedTicket = await this.travelDetailRepository.save(newDetail);
+
+    const N8N_WEBHOOK_URL = 'http://localhost:5678/webhook-test/6d0348de-70da-4d3d-95c5-b673c20ee782';
+    fetch(N8N_WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        event: 'NEW_TICKET_PURCHASED',
+        passenger: savedTicket.passenger_full_name,
+        ci: savedTicket.passenger_ci,
+        price: savedTicket.ticket_price,
+        id_seat: savedTicket.seat?.id_seat,
+        destiny_email: savedTicket.user?.email
+
+      })
+    }).catch(error => {
+      console.error('Error sending data to n8n', error);
+    })
+
+    return savedTicket;
   }
 
   async findAllDetails(): Promise<TravelDetail[]> {
