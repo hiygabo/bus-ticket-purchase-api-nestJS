@@ -13,7 +13,75 @@ export class TravelDetailService {
   constructor(
     @InjectRepository(TravelDetail)
     private readonly travelDetailRepository: Repository<TravelDetail>,
+
   ) {}
+
+  async getMyTrips(idUser: number): Promise<TravelDetail[]> {
+    return await this.travelDetailRepository.find({
+      where: {
+        user: { id_user: idUser }
+      },
+      relations: {
+        travel: {
+          
+          travel_origin: {place: true},
+          travel_destiny: {place: true},
+          schedule: true,
+          
+        }, 
+        seat: true,
+        payment: {
+          paymentType: true
+        }
+      },
+      order: {
+          id_detail: 'DESC'
+      }
+    })
+
+  }
+
+  async findByUser(idUser: number) {
+    return await this.travelDetailRepository.find({
+      where: {
+        user: {id_user: idUser}
+      },
+      relations: {
+        travel: {
+          
+          travel_origin: {place: true},
+          travel_destiny: {place: true},
+          schedule: true,
+        }, 
+        seat: true,
+        payment: {
+          paymentType: true
+        }
+      },
+      order: {
+          id_detail: 'DESC'
+      }
+
+    })
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   async createDetail(
     createTravelDetailDto: CreateTravelDetailDto,
@@ -30,6 +98,8 @@ export class TravelDetailService {
         `Seat ${createTravelDetailDto.id_seat} is already occupied for travel ${createTravelDetailDto.id_travel}`,
       );
     }
+
+  
     const newDetail = this.travelDetailRepository.create({
       ticket_price: createTravelDetailDto.ticket_price,
       passenger_full_name: createTravelDetailDto.passenger_full_name,

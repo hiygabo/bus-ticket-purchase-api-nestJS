@@ -52,4 +52,10 @@ export class TravelDetailController {
     );
     return details.map((detail) => detail.seat.id_seat);
   }
+
+
+  @Get('user/:id_user')
+  findByUser(@Param('id_user') id_user: string) {
+    return this.travelDetailService.findByUser(+id_user);
+  }
 }
