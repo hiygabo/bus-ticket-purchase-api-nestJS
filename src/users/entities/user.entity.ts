@@ -1,4 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne, JoinColumn } from 'typeorm';
+import type { Relation } from 'typeorm';
 import { TravelDetail } from 'src/travel_detail/entities/travel_detail.entity';
 import { Place } from 'src/place/entities/place.entity';
 @Entity('USERS')
@@ -19,9 +20,9 @@ export class User {
   role: string;
   
   @OneToMany(() => TravelDetail, (travelDetail) => travelDetail.user)
-  travelDetails: TravelDetail[];
+  travelDetails: Relation<TravelDetail>[];
 
   @ManyToOne(() => Place, (place) => place.users)
   @JoinColumn({ name: 'id_place'})
-  city: Place;
+  city: Relation<Place>;
 }

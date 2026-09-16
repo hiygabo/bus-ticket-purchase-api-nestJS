@@ -10,6 +10,7 @@ import {
   JoinColumn,
   OneToMany,
 } from 'typeorm';
+import type { Relation } from 'typeorm';
 import { Place } from '../../place/entities/place.entity';
 import { Travel } from '../../travel/entities/travel.entity';
 @Entity('STOP')
@@ -28,10 +29,10 @@ export class Stop {
 
   @ManyToOne(() => Place, (place) => place.stops)
   @JoinColumn({ name: 'id_place' })
-  place: Place;
+  place: Relation<Place>;
 
   @OneToMany(() => Travel, (travel) => travel.travel_origin)
-  travels_as_origin: Travel[];
+  travels_as_origin: Relation<Travel>[];
   @OneToMany(() => Travel, (travel) => travel.travel_destiny)
-  travels_as_destiny: Travel[];
+  travels_as_destiny: Relation<Travel>[];
 }

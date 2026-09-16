@@ -1,4 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, OneToMany, Column } from 'typeorm';
+import type { Relation } from 'typeorm';
 import { Travel } from '../../travel/entities/travel.entity';
 
 @Entity('SCHEDULE')
@@ -15,5 +16,5 @@ export class Schedule {
   @Column({ type: 'varchar', nullable: true })
   estimated_travel_time: string;
   @OneToMany(() => Travel, (travel) => travel.schedule)
-  travels: Travel[];
+  travels: Relation<Travel>[];
 }

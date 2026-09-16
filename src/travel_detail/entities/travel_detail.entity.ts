@@ -4,8 +4,9 @@ import {
   Column,
   ManyToOne,
   JoinColumn,
-  OneToOne
+  OneToOne,
 } from 'typeorm';
+import type { Relation } from 'typeorm';
 import { Travel } from '../../travel/entities/travel.entity';
 import { Seat } from '../../seat/entities/seat.entity';
 import { User } from 'src/users/entities/user.entity';
@@ -27,16 +28,16 @@ export class TravelDetail {
 
   @ManyToOne(() => Travel, (travel) => travel.travelDetails)
   @JoinColumn({ name: 'id_travel' })
-  travel: Travel;
+  travel: Relation<Travel>;
 
   @ManyToOne(() => Seat, (seat) => seat.travelDetails)
   @JoinColumn({ name: 'id_seat' })
-  seat: Seat;
+  seat: Relation<Seat>;
 
   @ManyToOne(() => User, (user) => user.travelDetails)
   @JoinColumn({ name: 'id_user'})
-  user: User;
+  user: Relation<User>;
 
   @OneToOne(() => Payment, (payment) => payment.travelDetail)
-  payment: Payment;
+  payment: Relation<Payment>;
 }

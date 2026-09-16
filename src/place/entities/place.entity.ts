@@ -1,4 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import type { Relation } from 'typeorm';
 import { Stop } from '../../stop/entities/stop.entity';
 import { User } from 'src/users/entities/user.entity';
 @Entity('PLACE')
@@ -10,10 +11,10 @@ export class Place {
   place_name: string;
 
   @OneToMany(() => Stop, (stop) => stop.place)
-  stops: Stop[];
+  stops: Relation<Stop>[];
 
   @OneToMany(() => User, (user) => user.city)
-  users: User[];
+  users: Relation<User>[];
 
   @Column({ type: 'varchar', length: 50, default: 'ACTIVE' })
   place_state: string;

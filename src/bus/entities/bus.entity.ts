@@ -6,6 +6,7 @@ import {
   JoinColumn,
   OneToMany,
 } from 'typeorm';
+import type { Relation } from 'typeorm';
 import { Category } from '../../category/entities/category.entity';
 import { Seat } from '../../seat/entities/seat.entity';
 import { Travel } from '../../travel/entities/travel.entity';
@@ -25,10 +26,10 @@ export class Bus {
 
   @ManyToOne(() => Category, (category) => category.buses)
   @JoinColumn({ name: 'id_category' })
-  category: Category;
+  category: Relation<Category>;
 
-  @OneToMany(() => Seat, (seat) => seat.bus)
-  seats: Seat[];
+  @OneToMany(() => Seat, (seat) => seat.bus, { eager: true})
+  seats: Relation<Seat>[];
   @OneToMany(() => Travel, (travel) => travel.bus)
-  travel: Travel[];
+  travel: Relation<Travel>[];
 }

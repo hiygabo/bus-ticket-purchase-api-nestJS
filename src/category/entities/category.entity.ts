@@ -1,4 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, OneToMany, Column } from 'typeorm';
+import type { Relation } from 'typeorm';
 import { Bus } from '../../bus/entities/bus.entity';
 @Entity('CATEGORY')
 export class Category {
@@ -9,5 +10,5 @@ export class Category {
   category_name: string;
 
   @OneToMany(() => Bus, (bus) => bus.category)
-  buses: Bus[];
+  buses: Relation<Bus>[];
 }

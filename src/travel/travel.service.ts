@@ -101,12 +101,13 @@ export class TravelService {
       relations: { bus: true },
     });
 
-    if (!travel) {
+    if (!travel || !travel.bus) {
       throw new NotFoundException(`Travel with ID ${id_travel} not found`);
     }
 
     const allSeats = await this.seatRepository.find({
       where: { bus: { id_bus: travel.bus.id_bus } },
+      relations: { bus: true },
       order: { seat_number: 'ASC' },
     });
 
@@ -145,7 +146,9 @@ export class TravelService {
         status: 'ACTIVE',
       },
       relations: {
-        bus: true,
+        bus: {
+          seats: true
+        },
         travel_origin: {
           place: true,
         },

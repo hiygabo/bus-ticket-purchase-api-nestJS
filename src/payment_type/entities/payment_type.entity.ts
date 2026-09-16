@@ -1,4 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import type { Relation } from 'typeorm';
 import { Payment } from 'src/payment/entities/payment.entity';
 @Entity('PAYMENT_TYPES')
 export class PaymentType {
@@ -12,5 +13,5 @@ export class PaymentType {
   description: string; // Ej: 'Pago mediante QR Simple'
 
   @OneToMany(() => Payment, (payment) => payment.paymentType)
-  payments: Payment[];
+  payments: Relation<Payment>[];
 }

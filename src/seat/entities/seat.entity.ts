@@ -6,6 +6,7 @@ import {
   JoinColumn,
   OneToMany,
 } from 'typeorm';
+import type { Relation } from 'typeorm';
 import { Bus } from '../../bus/entities/bus.entity';
 import { TravelDetail } from '../../travel_detail/entities/travel_detail.entity';
 
@@ -19,8 +20,8 @@ export class Seat {
 
   @ManyToOne(() => Bus, (bus) => bus.seats)
   @JoinColumn({ name: 'id_bus' })
-  bus: Bus;
+  bus: Relation<Bus>;
 
   @OneToMany(() => TravelDetail, (travelDetail) => travelDetail.seat)
-  travelDetails: TravelDetail[];
+  travelDetails: Relation<TravelDetail>[];
 }

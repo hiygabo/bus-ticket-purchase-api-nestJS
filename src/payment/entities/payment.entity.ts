@@ -1,4 +1,5 @@
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import type { Relation } from 'typeorm';
 import { PaymentType } from 'src/payment_type/entities/payment_type.entity';
 import { TravelDetail } from 'src/travel_detail/entities/travel_detail.entity';
 
@@ -21,14 +22,14 @@ export class Payment {
 
   @ManyToOne(() => PaymentType, (paymentType) => paymentType.payments)
   @JoinColumn({ name: 'id_payment_type' })
-  paymentType: PaymentType;
+  paymentType: Relation<PaymentType>;
 
   @Column()
   id_payment_type: number;
 
   @OneToOne(() => TravelDetail, (travelDetail) => travelDetail.payment)
   @JoinColumn({ name: 'id_travel_detail' })
-  travelDetail: TravelDetail;
+  travelDetail: Relation<TravelDetail>;
 
   @Column()
   id_travel_detail: number;

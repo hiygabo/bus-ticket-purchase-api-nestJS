@@ -6,6 +6,7 @@ import {
   ManyToOne,
   OneToMany,
 } from 'typeorm';
+import type { Relation } from 'typeorm';
 import { Bus } from '../../bus/entities/bus.entity';
 import { Stop } from '../../stop/entities/stop.entity';
 import { TravelDetail } from '../../travel_detail/entities/travel_detail.entity';
@@ -30,23 +31,23 @@ export class Travel {
 
   @ManyToOne(() => Bus, (bus) => bus.travel)
   @JoinColumn({ name: 'id_bus' })
-  bus: Bus;
+  bus: Relation<Bus>;
 
   // @Column({ name: 'id_bus' })
   // id_bus: number;
 
   @ManyToOne(() => Stop, (stop) => stop.travels_as_origin)
   @JoinColumn({ name: 'id_origin_stop' })
-  travel_origin: Stop;
+  travel_origin: Relation<Stop>;
 
   @ManyToOne(() => Stop, (stop) => stop.travels_as_destiny)
   @JoinColumn({ name: 'id_destiny_stop' })
-  travel_destiny: Stop;
+  travel_destiny: Relation<Stop>;
 
   @OneToMany(() => TravelDetail, (travelDetail) => travelDetail.travel)
-  travelDetails: TravelDetail[];
+  travelDetails: Relation<TravelDetail>[];
 
   @ManyToOne(() => Schedule, (schedule) => schedule.travels)
   @JoinColumn({ name: 'id_schedule' })
-  schedule: Schedule;
+  schedule: Relation<Schedule>;
 }
