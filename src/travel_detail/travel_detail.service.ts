@@ -95,7 +95,12 @@ export class TravelDetailService {
 
     const savedTicket = await this.travelDetailRepository.save(newDetail);
 
-    const N8N_WEBHOOK_URL = 'http://localhost:5678/webhook-test/96de932c-0291-4408-a5f6-934f01f35b78';
+    const ticketWithUser = await this.travelDetailRepository.findOne({
+      where:{ id_detail: savedTicket.id_detail},
+      relations: {user: true}
+    })
+
+    const N8N_WEBHOOK_URL = 'http://localhost:5678/webhook/96de932c-0291-4408-a5f6-934f01f35b78';
     fetch(N8N_WEBHOOK_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -105,7 +110,7 @@ export class TravelDetailService {
         ci: savedTicket.passenger_ci,
         price: savedTicket.ticket_price,
         id_seat: savedTicket.seat?.id_seat,
-        destiny_email: "gaboandiaalave@gmail.com"
+        destiny_email: ticketWithUser?.user.email,
 
       })
     }).catch(error => {
