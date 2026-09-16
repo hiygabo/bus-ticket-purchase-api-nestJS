@@ -98,10 +98,23 @@ export class TravelDetailService {
     const ticketWithUser = await this.travelDetailRepository.findOne({
       where:{ id_detail: savedTicket.id_detail},
       relations: {user: true}
-    })
+    });
 
-    const N8N_WEBHOOK_URL = 'http://localhost:5678/webhook/96de932c-0291-4408-a5f6-934f01f35b78';
-    fetch(N8N_WEBHOOK_URL, {
+  (async () => {
+    try {
+      const doc = await this.generateTicketPDF(savedTicket.id_detail);
+      const pdfBase64 = await new Promise<string>((resolve, reject) => {
+        const buffers = [];
+        doc.on('data', buffers.push.bind(buffers));
+        doc.on('end', () => {
+          const pdfData = Buffer.concat(buffers);
+          resolve(pdfData.toString('base64'));
+        });
+        doc.on('error', reject);
+        doc.end();
+      });
+      const N8N_WEBHOOK_URL = 'http://localhost:5678/webhook/96de932c-0291-4408-a5f6-934f01f35b78';
+    await fetch(N8N_WEBHOOK_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -111,12 +124,14 @@ export class TravelDetailService {
         price: savedTicket.ticket_price,
         id_seat: savedTicket.seat?.id_seat,
         destiny_email: ticketWithUser?.user.email,
+        ticket_pdf: pdfBase64,
 
       })
-    }).catch(error => {
-      console.error('Error sending data to n8n', error);
     })
-
+    } catch(error) {
+      console.error("Error sending ticket to user email", error);
+    }
+  })();
     return savedTicket;
   }
 
