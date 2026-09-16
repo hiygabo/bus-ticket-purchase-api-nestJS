@@ -1,0 +1,72 @@
+{
+  "name": "ticket-send",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "96de932c-0291-4408-a5f6-934f01f35b78",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "3b7e9e1d-a1e5-451d-b178-df0fa31a5ae9",
+      "name": "Webhook",
+      "webhookId": "96de932c-0291-4408-a5f6-934f01f35b78"
+    },
+    {
+      "parameters": {
+        "fromEmail": "gaboandiaalave@gmail.com",
+        "toEmail": "={{ $json.body.destiny_email }}",
+        "subject": "=ticket ready {{ $json.body.passenger }}!",
+        "html": "=Hi, your seat is {{ $json.body.id_seat }}. you pay Bs.. {{ $json.body.price }}.",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        224,
+        0
+      ],
+      "id": "46f5c5b8-9482-431f-8f79-3b9285bc0758",
+      "name": "Send an Email",
+      "webhookId": "0deb6a6f-ee0f-4840-a27f-6546bf932093",
+      "credentials": {
+        "smtp": {
+          "id": "fHOhD7ZAfZDF7ERg",
+          "name": "SMTP account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Send an Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "f51780fd-bc57-4742-9f9f-59a85516dfc1",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "37fa4d2e70beff80ef44f5272e9957aa57d9c23ef92601e8f8f52736a7c9dc76"
+  },
+  "nodeGroups": [],
+  "id": "m48P30sFYOhhjo1F",
+  "tags": []
+}

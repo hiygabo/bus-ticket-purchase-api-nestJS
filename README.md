@@ -2,18 +2,20 @@
 
 ## Objective
 
-This project was developed to digitize and streamline the bus ticket purchasing process. Traditionally, bus terminals force passengers to buy tickets on-site, this system enables users to complete their purchases entirely online, offering features like route visualization, estimated departure and arrivale times, and automated PDF ticket generation.
+This project was developed to digitize and streamline the bus ticket purchasing process. Traditionally, bus terminals force passengers to buy tickets on-site, this system enables users to complete their purchases entirely online, offering features like route visualization, estimated departure and arrivale times, and implemented with n8n to send the tickets on PDF format automatically to user's email.
 
 ## Technologies
 
 The system is built using the following tools and technologies:
 
+- ![n8n](https://img.shields.io/badge/n8n-FF6C37?style=flat-square&logo=n8n&logoColor=white) Workflow Automation
 - ![NestJS](https://img.shields.io/badge/NestJS-E0234E?style=flat-square&logo=nestjs&logoColor=white) Framework
 - ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white) Language
 - ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white) Containerization
 - ![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=nodedotjs&logoColor=white) Runtime
 - ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-336791?style=flat-square&logo=postgresql&logoColor=white) Database
 - ![PostGIS](https://img.shields.io/badge/PostGIS-336791?style=flat-square&logo=postgis&logoColor=white) Geospatial Database Extension
+
 
 ## How to run locally
 
@@ -73,6 +75,17 @@ cd bus-ticket-purchase-api-nestJS
 npm install
 npm run start:dev
 ```
+
+### Start n8n server
+
+1. Install n8n on your machine using npx:
+
+```bash
+npx n8n
+```
+2. Access the n8n editor UI at `http://localhost:5678` and import the workflow adjunted in the next directory: `/n8n-workflows` on this repository.
+3. Configure the workflow to use your email service provider and set up the necessary credentials for sending emails.
+4. Publish the workflow and test it by triggering a ticket purchase in the application. The workflow will automatically generate a PDF ticket and send it to the user's email address.
 
 ### Architecture
 
